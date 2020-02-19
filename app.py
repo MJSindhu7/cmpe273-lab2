@@ -11,6 +11,7 @@ def hello():
     name = request.args.get("name", "World")
     return f'Hello, {escape(name)}!'
 
+#For creating new student
 @app.route('/students', methods = ['POST'])
 def create_student():
     print(request)
@@ -22,6 +23,7 @@ def create_student():
         "name" : content["name"]
     }, 201
 
+# Getting student of that ID
 @app.route('/students/<id>', methods = ['GET'])
 def retreive_student(id):
     if int(id) in students:
@@ -32,6 +34,7 @@ def retreive_student(id):
     else:
         return "Student ID not found"
 
+#Creating a new class
 @app.route('/classes', methods = ['POST'])
 def add_class():
     id = random.randint(10000,20000)
@@ -41,6 +44,7 @@ def add_class():
     classes[id] = content
     return content
 
+# Getting class of that ID
 @app.route('/classes/<id>', methods = ['GET'])
 def retreive_classes(id):
     if int(id) in classes:
@@ -48,7 +52,8 @@ def retreive_classes(id):
     else:
         return "Class ID not found"
 
-@app.route('/classes/<id>', methods = ['POST'])
+# For patching Existing student to an existing class
+@app.route('/classes/<id>', methods = ['PATCH'])
 def add_student_to_class(id):
     content = request.json
     if int(id) in classes:
